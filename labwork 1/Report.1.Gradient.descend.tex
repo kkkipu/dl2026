@@ -1,0 +1,52 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{geometry}
+\geometry{
+a4paper,
+total={170mm, 257mm},
+left=20mm,
+top=20mm,
+}
+
+\title{Labwork 1: Gradient Descent}
+
+\begin{document}
+
+\maketitle
+
+\section{Algorithm implementation}
+
+In this lab, we implement gradient descent from scratch. Here is the update rule:
+$$x_{new} = x_{old} - r \cdot f'(x_{old})$$
+
+where:
+\begin{itemize}
+\item $r$ is the learning rate
+\item $f'(x)$ is the derivative of the function
+\end{itemize}
+
+The algorithm starts from an initial value and iteratively updates $x$.
+
+
+\section{Effect of learning rate}
+
+The learning rate $r$ plays a crucial role in the behavior of gradient descent:
+
+\begin{itemize}
+\item \textbf{Small learning rate ($r = 0.01$):}
+Convergence is slow and requires many iterations.
+
+
+\item \textbf{Moderate learning rate ($r = 0.1$):} 
+Efficient convergence to the minimum.
+
+\item \textbf{Large learning rate ($r = 1.0$):} 
+The algorithm may miss the minimum or even diverge.
+
+
+\end{itemize}
+
+Thus, choosing an appropriate learning rate is important for both speed and stability.
+
+
+\end{document}
