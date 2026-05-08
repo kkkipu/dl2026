@@ -1,0 +1,154 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm,
+ }
+ \usepackage{graphicx}
+ \usepackage{titling}
+ \usepackage{booktabs}
+ \usepackage{listings}
+ \usepackage{xcolor}
+ \usepackage{hyperref}
+ \usepackage{fancyvrb}
+ \usepackage{float}
+ \usepackage{amsmath}
+ \definecolor{darkblue}{rgb}{0.0, 0.0, 0.5}
+
+\RecustomVerbatimEnvironment{verbatim}{Verbatim}{formatcom=\color{darkblue}}
+
+\setlength{\parindent}{0pt} %lui dau dong
+
+
+\title{\textbf{DEEP LEARNING} \\ 
+{\Large \textbf{Labwork 2 - Linear Regression}}}
+
+\date{May 2026}
+ 
+ \usepackage{fancyhdr}
+\fancypagestyle{plain}{
+    \fancyhf{} 
+    \fancyfoot[L]{\thedate}
+    \fancyfoot[R]{\thepage}
+    \fancyhead[L]{University of Science and Technology of Hanoi}
+    \fancyhead[R]{Deep Learning}
+}
+\makeatletter
+\def\@maketitle{%
+  \newpage
+  % \null
+  \vskip 1em %
+  \begin{center}%
+  \let \footnote \thanks
+    {\LARGE \@title \par}%
+    \vskip 1em%
+    %{\large \@date}%
+  \end{center}%
+  \par
+  \vskip 1em}
+\makeatother
+
+\usepackage{cmbright}
+
+% Configuration for code blocks
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstset{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\begin{document}
+
+\pagestyle{plain}
+\maketitle
+
+\noindent\begin{tabular}{@{}ll}
+    Student: & Foo Cheung Nicolas - ES2540023\\
+\end{tabular}
+
+\section{Algorithm Implementation}
+
+In this labwork, we implemented linear regression from scratch using gradient descent optimization. The goal is to learn parameters $w_0$ and $w_1$ such that the model:
+
+\[
+\hat{y} = w_1 x + w_0
+\]
+
+best fits the given dataset.
+
+
+\subsection{Model Definition}
+
+The linear regression model is defined as:
+
+\[
+f(x) = w_1 x + w_0
+\]
+
+\subsection{Loss Function}
+
+We use the Mean Squared Error (MSE) with a factor $\frac{1}{2}$ for convenience in derivative computation:
+
+\[
+J(w_0, w_1) = \frac{1}{n} \sum_{i=1}^{n} \frac{1}{2} (\hat{y}_i - y_i)^2
+\]
+
+\subsection{Gradient Descent}
+
+The parameters are updated using gradient descent:
+
+\[
+w_0 := w_0 - r \frac{\partial J}{\partial w_0}
+\]
+\[
+w_1 := w_1 - r \frac{\partial J}{\partial w_1}
+\]
+
+where $r$ is the learning rate.
+
+The partial derivatives are:
+
+\[
+\frac{\partial J}{\partial w_0} = \frac{1}{n} \sum (\hat{y}_i - y_i)
+\]
+\[
+\frac{\partial J}{\partial w_1} = \frac{1}{n} \sum (\hat{y}_i - y_i)x_i
+\]
+
+
+\section{Effect of Learning Rate}
+
+The learning rate $r$ significantly affects convergence:
+
+\begin{itemize}
+    \item \textbf{Small learning rate ($r = 0.00001$):} 
+    The algorithm converges slowly but steadily toward the optimal solution.
+    
+    \item \textbf{Moderate learning rate ($r = 0.0005$):}
+    Faster convergence with stable updates.
+
+    \item \textbf{Large learning rate ($r = 0.001$):}
+    The algorithm may diverge, causing the loss to increase rapidly and parameters to become unstable.
+\end{itemize}
+
+In this experiment, a moderate learning rate ($r = 0.0008$) was chosen to ensure stable convergence.
+
+\section{Result Visualization}
+
+The final model is plotted together with the dataset points. The learned regression line approximates the relationship between $x$ and $y$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{image.png}
+    \caption{Linear regression plot}
+    \label{fig:placeholder}
+\end{figure}
+
+\end{document}
