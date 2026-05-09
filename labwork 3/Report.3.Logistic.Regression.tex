@@ -1,0 +1,144 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm,
+ }
+ \usepackage{graphicx}
+ \usepackage{titling}
+ \usepackage{booktabs}
+ \usepackage{listings}
+ \usepackage{xcolor}
+ \usepackage{hyperref}
+ \usepackage{fancyvrb}
+ \usepackage{float}
+ \usepackage{amsmath}
+ \definecolor{darkblue}{rgb}{0.0, 0.0, 0.5}
+
+\RecustomVerbatimEnvironment{verbatim}{Verbatim}{formatcom=\color{darkblue}}
+
+\setlength{\parindent}{0pt} %lui dau dong
+
+
+\title{\textbf{DEEP LEARNING} \\ 
+{\Large \textbf{Labwork 3 - Logistic Regression}}}
+
+\date{May 2026}
+ 
+ \usepackage{fancyhdr}
+\fancypagestyle{plain}{
+    \fancyhf{} 
+    \fancyfoot[L]{\thedate}
+    \fancyfoot[R]{\thepage}
+    \fancyhead[L]{University of Science and Technology of Hanoi}
+    \fancyhead[R]{Deep Learning}
+}
+\makeatletter
+\def\@maketitle{%
+  \newpage
+  % \null
+  \vskip 1em %
+  \begin{center}%
+  \let \footnote \thanks
+    {\LARGE \@title \par}%
+    \vskip 1em%
+    %{\large \@date}%
+  \end{center}%
+  \par
+  \vskip 1em}
+\makeatother
+
+\usepackage{cmbright}
+
+% Configuration for code blocks
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstset{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\begin{document}
+
+\pagestyle{plain}
+\maketitle
+
+\noindent\begin{tabular}{@{}ll}
+    Student: & Foo Cheung Nicolas - ES2540023 \\
+\end{tabular}
+
+\section{Algorithm Implementation}
+
+In this lab, we implemented logistic regression from scratch to predict whether a person would get a loan based on their experience and salary. The goal is to understand the effect of gradient descent optimization and the role of the learning rate in convergence.
+
+
+
+\subsection{Model Definition}
+
+The logistic regression model predicts the probability of a positive outcome using the sigmoid function:
+\[
+\hat{y} = \sigma(z) = \frac{1}{1 + e^{-z}}, \quad z = w_1 x_1 + w_2 x_2 + w_0
+\]
+\subsection{Loss Function}
+
+The binary cross-entropy loss for $N$ data points is:
+\[
+J(w_0, w_1, w_2) = \frac{1}{N} \sum_{i=1}^N L_i = -\frac{1}{N} \sum_{i=1}^N \Big[ y_i \log(\hat{y}_i) + (1-y_i) \log(1-\hat{y}_i) \Big]
+\]
+
+\subsection{Gradients}
+The partial derivatives of the loss function with respect to the weights are:
+\[
+\frac{\partial J}{\partial w_0} = \frac{1}{N} \sum_{i=1}^N (\hat{y}_i - y_i)
+\]
+\[
+\frac{\partial J}{\partial w_1} = \frac{1}{N} \sum_{i=1}^N (\hat{y}_i - y_i) x_i^{(1)}
+\]
+\[
+\frac{\partial J}{\partial w_2} = \frac{1}{N} \sum_{i=1}^N (\hat{y}_i - y_i) x_i^{(2)}
+\]
+
+\subsection{Gradient Descent}
+
+We update the weights iteratively:
+\[
+w_j \gets w_j - r \frac{\partial J}{\partial w_j}, \quad j = 0,1,2
+\]
+where $r$ is the learning rate. 
+
+\section{Effect of Learning Rate}
+
+The learning rate $r$ significantly affects convergence:
+
+\begin{itemize}
+    \item \textbf{Small learning rate ($r = 0.001$):}
+          Very slow convergence, many iterations needed.
+
+    \item \textbf{Moderate learning rate ($r = 0.05$):}
+          Fast and stable convergence.
+
+    \item \textbf{Large learning rate ($r = 0.1$):}
+          May overshoot minimum, loss oscillates, may diverge.
+\end{itemize}
+
+Choosing an appropriate learning rate is crucial for gradient descent efficiency and stability.
+
+\section{Result Visualization}
+
+The graph shows the logistic regression decision boundary for predicting loan approval based on Experience and Salary. Red points indicate profiles approved for a loan, blue points indicate profiles refused, and the green line represents the decision boundary learned by gradient descent.
+
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\linewidth]{logistic.png}
+        \caption{Logistic Regression graph}
+        \label{fig:placeholder}
+\end{figure}
+
+\end{document}
