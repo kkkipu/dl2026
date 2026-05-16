@@ -1,0 +1,231 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm,
+ }
+ \usepackage{graphicx}
+ \usepackage{titling}
+ \usepackage{booktabs}
+ \usepackage{listings}
+ \usepackage{xcolor}
+ \usepackage{hyperref}
+ \usepackage{fancyvrb}
+ \usepackage{float}
+ \usepackage{amsmath}
+ \definecolor{darkblue}{rgb}{0.0, 0.0, 0.5}
+
+\RecustomVerbatimEnvironment{verbatim}{Verbatim}{formatcom=\color{darkblue}}
+
+\setlength{\parindent}{0pt} %lui dau dong
+
+
+\title{\textbf{DEEP LEARNING} \\ 
+{\Large \textbf{Labwork 4 - Neural Network}}}
+
+\date{May 2026}
+ 
+ \usepackage{fancyhdr}
+\fancypagestyle{plain}{
+    \fancyhf{} 
+    \fancyfoot[L]{\thedate}
+    \fancyfoot[R]{\thepage}
+    \fancyhead[L]{University of Science and Technology of Hanoi}
+    \fancyhead[R]{Deep Learning}
+}
+\makeatletter
+\def\@maketitle{%
+  \newpage
+  % \null
+  \vskip 1em %
+  \begin{center}%
+  \let \footnote \thanks
+    {\LARGE \@title \par}%
+    \vskip 1em%
+    %{\large \@date}%
+  \end{center}%
+  \par
+  \vskip 1em}
+\makeatother
+
+\usepackage{cmbright}
+
+% Configuration for code blocks
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstset{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\begin{document}
+
+\pagestyle{plain}
+\maketitle
+
+\noindent\begin{tabular}{@{}ll}
+    Student: & Foo Cheung Nicolas - ES2540023 \\
+\end{tabular}
+
+\section{Algorithm Implementation}
+
+The objective of this labwork is to implement a neural network from scratch using object-oriented programming. The neural network supports feedforward propagation and can solve the XOR logical problem.
+
+
+
+\subsection{Network Architecture}
+
+The neural network is composed of several layers. Each layer contains multiple neurons, and each neuron contains:
+
+\begin{itemize}
+    \item A list of weights
+    \item A bias
+    \item An activation function
+\end{itemize}
+
+The structure of the network is stored in a text file. Example:
+
+\begin{verbatim}
+3
+2
+2
+1
+\end{verbatim}
+
+This represents:
+
+\begin{itemize}
+    \item 3 layers in total (input, hidden, output)
+    \item 2 neurons in the input layer
+    \item 2 neurons in the hidden layer
+    \item 1 neuron in the output layer
+\end{itemize}
+
+
+\subsection{Feedforward Implementation}
+For each neuron, the weighted sum is computed using:
+
+\[
+z = \sum_{i=1}^{n} w_i x_i + b
+\]
+
+where:
+
+\begin{itemize}
+    \item $w_i$ are the weights
+    \item $x_i$ are the inputs
+    \item $b$ is the bias
+\end{itemize}
+
+The activation output is then computed.
+
+Initially, the sigmoid activation function was used:
+
+\[
+\sigma(z) = \frac{1}{1 + e^{-z}}
+\]
+
+However, the XOR weights provided in the slides were designed for a perceptron using a step activation function. Therefore, the step function was used for the final XOR experiment:
+
+\[
+f(z) =
+\begin{cases}
+1 & \text{if } z \geq 0 \\
+0 & \text{otherwise}
+\end{cases}
+\]
+
+\section{Object-Oriented Design}
+The network architecture is read from a text file. The implementation contains three main classes:
+
+\begin{itemize}
+    \item Neuron
+    \item Layer
+    \item NeuralNetwork
+\end{itemize}
+
+\subsection{Neuron Class}
+
+The \texttt{Neuron} class stores weights and bias, and computes the activation output.
+
+\begin{lstlisting}
+class Neuron:
+    def __init__(self, weights, bias):
+        self.weights = weights
+        self.bias = bias
+\end{lstlisting}
+
+\subsection{Layer Class}
+
+The \texttt{Layer} class contains multiple neurons and computes outputs for the entire layer.
+
+\begin{lstlisting}
+class Layer:
+    def __init__(self, neurons):
+        self.neurons = neurons
+\end{lstlisting}
+
+
+\subsection{NeuralNetwork Class}
+
+The \texttt{NeuralNetwork} class contains all layers and performs feedforward propagation.
+
+\begin{lstlisting}
+class NeuralNetwork:
+    def __init__(self, layers):
+        self.layers = layers
+\end{lstlisting}
+
+
+\section{XOR Experiment}
+The XOR problem was tested using the following weights and biases.
+
+\subsection{Hidden Layer}
+
+Neuron 1 (NAND):
+
+\[
+w = [-1, -1], \quad b = 1.5
+\]
+
+Neuron 2 (OR):
+
+\[
+w = [1, 1], \quad b = -0.5
+\]
+
+\subsection{Output Layer}
+
+Output neuron (AND):
+
+\[
+w = [1, 1], \quad b = -1.5
+\]
+
+\section{Results}
+
+The network was tested using the four XOR inputs.
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Input & Output \\
+\hline
+(0,0) & 0 \\
+(0,1) & 1 \\
+(1,0) & 1 \\
+(1,1) & 0 \\
+\hline
+\end{tabular}
+\end{center}
+
+The neural network successfully reproduced the XOR logical function.
+
+
+\end{document}
